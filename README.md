@@ -1,53 +1,65 @@
 # DataCentric-LegalNER-BR
 
-Repositório de artefatos do projeto **DataCentric-LegalNER-BR**, voltado ao reconhecimento de entidades nomeadas (REN) no domínio jurídico brasileiro com abordagem centrada em dados.
+Repositório suplementar do artigo *Um Pipeline Data-Centric para Construção de Corpus de Reconhecimento de Entidades Nomeadas para o Domínio Trabalhista Brasileiro* (SBBD). Reúne artefatos metodológicos e de dados do estudo de REN na Justiça do Trabalho com abordagem centrada em dados.
+
+O manuscrito descreve um pipeline que integra geração sintética, supervisão fraca, aprendizado ativo e validação humana, resultando em um corpus de treinamento com 53.324 segmentos anotados em 32 classes e um Gold Standard independente de 100 segmentos reais (2.605 entidades). Por sigilo judicial, o acervo integral e os textos originais do Gold Standard não são publicados. Este repositório disponibiliza diretrizes, esquemas, prompts, amostras anonimizadas e documentação complementar para reprodutibilidade parcial.
 
 ## Conteúdo do repositório
 
-Os arquivos estão agrupados abaixo pela função que cumprem no pipeline descrito no artigo.
+Cada arquivo abaixo corresponde a uma menção explícita no artigo. Entre parênteses, a seção do manuscrito.
 
 ### Dados e taxonomia
 
-**`100_amostras_gold_standard_reformulado.jsonl`**
-Cem segmentos textuais com anotações de entidades em JSONL. Serve para ilustrar a estrutura do acervo e o formato esperado das saídas.
+**`100_amostras_gold_standard_reformulado.jsonl`** (Seções 3.4 e 4.3)
+Cem segmentos em JSONL com anotações de entidades. Ilustra a estrutura do acervo e o formato de saída esperado.
 
-> **Aviso:** este conjunto foi anonimizado e modificado para publicação. Não é o mesmo gold standard utilizado na avaliação oficial do estudo.
+> **Aviso:** amostra reformulada, anonimizada e alterada para publicação. Não reproduz os 100 segmentos reais do PJe e PROAD usados na avaliação cega (Seção 4.3), nem contém textos sigilosos.
 
-**`distribuicao_categorias_amostras_gold_standard_real.jsonl`**
-Distribuição quantitativa e percentual das categorias de entidades no gold standard real. O conteúdo está em texto com formatação markdown.
+**`distribuicao_categorias_amostras_gold_standard_real.jsonl`** (Seções 3.4 e 4.3)
+Distribuição quantitativa e percentual das 32 categorias no Gold Standard real (100 segmentos, 2.605 entidades). O conteúdo está em texto com formatação markdown.
 
-**`classes_entidades.md`**
-Tabela das 32 classes do projeto: descrição, exemplos de formatação, frequência no corpus e F1 por classe.
+**`classes_entidades.md`** (Seção 3.4)
+Detalhamento das 32 classes: definição semântica, exemplos, frequência absoluta no corpus de treino e F1 individual por classe (incluindo suporte no Gold Standard para categorias raras).
 
-**`modelo_dados.json`**
-Esquema JSON que define campos, tipos e proveniência dos registros produzidos na extração de entidades.
+**`modelo_dados.json`** (Seção 3.3)
+Especificação do esquema JSONL adotado na curadoria: texto, entidades anotadas, metadados de proveniência e histórico de auditoria humana.
 
-**`diretrizes_anotacao_ner.pdf`**
-Manual de anotação com regras, critérios e exemplos para o escopo jurídico trabalhista.
+**`diretrizes_anotacao_ner.pdf`** (Seção 3.2)
+Manual técnico de anotação: taxonomia, critérios de fronteira, resolução de ambiguidades e alinhamento entre revisores.
 
-### Pré-rotulagem (cold start)
+### Pré-rotulagem e baseline generativo
 
-**`prompt_qwen_2.5_70b.md`**
-Prompt estruturado usado no `Qwen/Qwen2.5-70B-Instruct` para pré-anotação local de segmentos jurídicos.
+**`prompt_qwen_2.5_70b.md`** (Seções 3.1 e 5.1)
+Prompt estruturado usado no Qwen-2.5-72B para pré-rotulagem local do acervo autêntico e, na avaliação do artigo, como baseline generativo no Gold Standard (protocolo unificado da Seção 4.4).
 
-**`selecao_llm_pre_rotulacao.md`**
-Complemento à Seção 3.1 do artigo. Registra a exploração qualitativa que levou à escolha do Qwen-2.5-72B como pré-rotulador do acervo autêntico, incluindo critérios de seleção e modelos inspecionados.
+**`selecao_llm_pre_rotulacao.md`** (Seção 3.1)
+Exploração qualitativa entre LLMs abertos executados localmente que antecedeu a escolha do Qwen-2.5-72B como pré-rotulador no cold start.
 
-**`analise_modelos.png`**
-Figura com comparação lado a lado das saídas dos LLMs avaliados. O excerto exibido é fictício, sem texto de processo real.
+**`analise_modelos.png`** (Seção 3.1)
+Comparação visual lado a lado das saídas dos LLMs inspecionados. O excerto é fictício, sem texto de processo real.
 
 ### Geração sintética
 
-**`geracao_sintetica.md`**
-Complemento à Seção 3.1. Resume o fluxo de geração sintética com Gemini 2.5 Flash, pós-processamento, normalização para as 32 classes e auditoria humana. Aponta para os dois arquivos de prompt abaixo.
+**`geracao_sintetica.md`** (Seção 3.1)
+Fluxo de geração sintética com Gemini 2.5 Flash (única etapa com API externa do projeto), pós-processamento, normalização para as 32 classes e auditoria humana. Volume no corpus final: 15.877 segmentos sintéticos (~29,8% do treino).
 
-**`prompt_sintetico_entidades.md`**
-Prompt da trilha de entidades administrativas e estruturadas. Gera textos fictícios a partir de foco temático, estilo e complexidade.
+**`prompt_sintetico_entidades.md`** (Seção 3.1)
+Prompt da trilha de entidades administrativas e estruturadas. Entrada com taxonomia e cenários inventados, sem peças do PJe ou PROAD.
 
-**`prompt_sintetico_lgpd.md`**
-Prompt da trilha de categorias sensíveis (LGPD). Gera amostras sintéticas com entidades do art. 11, em modo unitário ou em lote.
+**`prompt_sintetico_lgpd.md`** (Seção 3.1)
+Prompt da trilha de categorias sensíveis (LGPD, art. 11). Geração em modo unitário ou em lote, com auditoria humana intensiva nos sintéticos LGPD (68,4% revisados, conforme Seção 3.4).
 
 ### Modelo encoder
 
-**`bertimbau_base_vs_large.md`**
-Complemento à Seção 4.1 do artigo. Documenta a comparação entre BERTimbau Base e Large treinados com o mesmo protocolo, com tabelas por fold e a justificativa da escolha da variante Large.
+**`bertimbau_base_vs_large.md`** (Seção 4.1)
+Comparação entre BERTimbau Base e Large no mesmo protocolo de validação cruzada (dez folds). Inclui métricas agregadas e valores por fold que fundamentam a escolha da variante Large. Os F1 absolutos deste experimento diferem dos do modelo de produção reportados na Seção 5.
+
+## O que não está neste repositório
+
+Conforme as limitações do artigo (Seção 6):
+
+O corpus de treinamento completo (53.324 segmentos, ~107 MB), incluindo segmentos de documentos sigilosos.
+
+Os textos originais do Gold Standard de avaliação cega.
+
+Código do pipeline (Airflow, rotulador, treinamento) e pesos do modelo especializado (previstos como trabalho futuro no manuscrito).
