@@ -1,8 +1,13 @@
 # DataCentric-LegalNER-BR
 
-Repositório suplementar do artigo *Um Pipeline Data-Centric para Construção de Corpus de Reconhecimento de Entidades Nomeadas para o Domínio Trabalhista Brasileiro* (SBBD). Reúne artefatos metodológicos e de dados do estudo de REN na Justiça do Trabalho com abordagem centrada em dados.
+Repositório suplementar do artigo *Um Pipeline Data-Centric para Construção de Corpus de Reconhecimento de Entidades Nomeadas para o Domínio Trabalhista Brasileiro* (SBBD 2026). Reúne artefatos metodológicos e de dados do estudo de REN na Justiça do Trabalho com abordagem centrada em dados.
 
 O manuscrito descreve um pipeline que integra geração sintética, supervisão fraca, aprendizado ativo e validação humana, resultando em um corpus de treinamento com 53.324 segmentos anotados em 32 classes e um Gold Standard independente de 100 segmentos reais (2.605 entidades). Por sigilo judicial, o acervo integral e os textos originais do Gold Standard não são publicados. Este repositório disponibiliza diretrizes, esquemas, prompts, amostras anonimizadas e documentação complementar para reprodutibilidade parcial.
+
+## Artigo
+
+**`artigo_sbbd_2026.pdf`**
+Versão em PDF do manuscrito submetido ao SBBD 2026. É a referência principal deste repositório: as seções citadas abaixo seguem a numeração desse arquivo.
 
 ## Conteúdo do repositório
 
@@ -20,6 +25,9 @@ Distribuição quantitativa e percentual das 32 categorias no Gold Standard real
 
 **`classes_entidades.md`** (Seção 3.4)
 Detalhamento das 32 classes: definição semântica, exemplos, frequência absoluta no corpus de treino e F1 individual por classe (incluindo suporte no Gold Standard para categorias raras).
+
+**`distribuicao_classes.png`** (Seção 3.4)
+Figura com a distribuição de suporte e percentual das 32 classes no corpus de treinamento. Duas tabelas lado a lado, com mapa de calor na coluna de suporte. Os valores correspondem a `classes_entidades.md` (547.036 entidades no total). As classes sensíveis da LGPD aparecem ao final da tabela da direita.
 
 **`modelo_dados.json`** (Seção 3.3)
 Especificação do esquema JSONL adotado na curadoria: texto, entidades anotadas, metadados de proveniência e histórico de auditoria humana.
