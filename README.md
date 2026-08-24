@@ -4,6 +4,16 @@ Repositório suplementar do artigo *Um Pipeline Data-Centric para Construção d
 
 O manuscrito descreve um pipeline que integra geração sintética, supervisão fraca, aprendizado ativo e validação humana, resultando em um corpus de treinamento com 53.324 segmentos anotados em 32 classes e um Gold Standard independente de 100 segmentos reais (2.605 entidades). Por sigilo judicial, o acervo integral e os textos originais do Gold Standard não são publicados. Este repositório disponibiliza diretrizes, esquemas, prompts, amostras anonimizadas e documentação complementar para reprodutibilidade parcial.
 
+## Reprodutibilidade das métricas
+
+As métricas reportadas no artigo (F1 micro de 98,15% no Gold Standard, F1 por classe, latência etc.) referem-se ao modelo e ao conjunto de avaliação usados na redação do manuscrito. **Não garantimos a reprodução exata desses valores** em inferências posteriores, por dois motivos:
+
+1. **Amostra publicada ≠ Gold Standard original.** O arquivo `100_amostras_gold_standard_reformulado.jsonl` foi anonimizado e alterado para divulgação. Embora preserve a estrutura e a taxonomia, contém variações textuais e de anotação em relação aos 100 segmentos reais do PJe e PROAD usados na avaliação cega (Seção 4.3). A distribuição de categorias no GS real está em `distribuicao_categorias_amostras_gold_standard_real.jsonl`, mas os textos originais não são publicados.
+
+2. **Modelo em evolução contínua.** O pipeline descrito no artigo opera com retreinamento e curadoria iterativos. O modelo especializado em produção muda ao longo do tempo; pesos, corpus de treino e checkpoints não estão disponíveis neste repositório.
+
+Para referência de métricas por classe no Gold Standard (suporte e F1 de uma avaliação pontual), consulte `classes_entidades_gold_standard.md`. Os valores lá registrados são indicativos e podem divergir dos reportados no artigo conforme a versão do modelo e o protocolo de avaliação.
+
 ## Artigo
 
 **`artigo_sbbd_2026.pdf`**
@@ -18,13 +28,16 @@ Cada arquivo abaixo corresponde a uma menção explícita no artigo. Entre parê
 **`100_amostras_gold_standard_reformulado.jsonl`** (Seções 3.4 e 4.3)
 Cem segmentos em JSONL com anotações de entidades. Ilustra a estrutura do acervo e o formato de saída esperado.
 
-> **Aviso:** amostra reformulada, anonimizada e alterada para publicação. Não reproduz os 100 segmentos reais do PJe e PROAD usados na avaliação cega (Seção 4.3), nem contém textos sigilosos.
+> **Aviso:** amostra reformulada, anonimizada e alterada para publicação. Não reproduz os 100 segmentos reais do PJe e PROAD usados na avaliação cega (Seção 4.3), nem contém textos sigilosos. Por conter variações em relação ao dataset original, **não deve ser usada para replicar as métricas do artigo** (ver seção [Reprodutibilidade das métricas](#reprodutibilidade-das-métricas)).
 
 **`distribuicao_categorias_amostras_gold_standard_real.jsonl`** (Seções 3.4 e 4.3)
 Distribuição quantitativa e percentual das 32 categorias no Gold Standard real (100 segmentos, 2.605 entidades). O conteúdo está em texto com formatação markdown.
 
+**`classes_entidades_gold_standard.md`** (Seções 3.4 e 5.1)
+Detalhamento das 32 classes no Gold Standard: suporte anotado e F1 por classe de uma avaliação pontual. Complementa `classes_entidades.md`, cujos F1 referem-se ao corpus de treino. Sujeito às limitações descritas em [Reprodutibilidade das métricas](#reprodutibilidade-das-métricas).
+
 **`classes_entidades.md`** (Seção 3.4)
-Detalhamento das 32 classes: definição semântica, exemplos, frequência absoluta no corpus de treino e F1 individual por classe (incluindo suporte no Gold Standard para categorias raras).
+Detalhamento das 32 classes: definição semântica, exemplos, frequência absoluta no corpus de treino e F1 individual por classe.
 
 **`distribuicao_classes.png`** (Seção 3.4)
 Figura com a distribuição de suporte e percentual das 32 classes no corpus de treinamento. Duas tabelas lado a lado, com mapa de calor na coluna de suporte. Os valores correspondem a `classes_entidades.md` (547.036 entidades no total). As classes sensíveis da LGPD aparecem ao final da tabela da direita.
